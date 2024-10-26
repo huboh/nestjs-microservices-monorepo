@@ -1,0 +1,36 @@
+{
+  "name": "nestjs-microservices",
+  "author": "huboh",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "turbo build",
+    "start": "turbo start",
+    "start:dev": "turbo start:dev",
+    "start:prod": "turbo start:prod",
+    "start:debug": "turbo start:debug",
+    "check-types": "turbo check-types",
+    "db:push": "turbo db:push",
+    "db:generate": "turbo db:generate",
+    "db:seed:dev": "turbo db:seed:dev",
+    "db:seed:prod": "turbo db:seed:prod",
+    "db:push:dev": "turbo db:push:dev",
+    "db:push:prod": "turbo db:push:prod",
+    "db:studio:dev": "turbo db:studio:dev",
+    "db:studio:prod": "turbo db:studio:prod"
+  },
+  "engines": {
+    "npm": ">=10.7.0",
+    "node": ">=22.2.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "tooling/*",
+    "packages/*"
+  ],
+  "packageManager": "npm@10.7.0",
+  "devDependencies": {
+    "turbo": "^2.1.3"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "extends": "@tooling/typescript/packages.json",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*spec.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@package/*": [
+        "src/*"
+      ]
+    }
+  }
+}

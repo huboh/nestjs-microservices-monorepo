@@ -1,0 +1,15 @@
+{
+  "name": "@tooling/prettier",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "files": [
+    ".prettierrc.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "transit": {
+      "dependsOn": [
+        "^transit"
+      ]
+    },
+    "build": {
+      "outputs": [
+        "dist/**"
+      ],
+      "dependsOn": [
+        "^db:generate",
+        "^build"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "transit"
+      ]
+    },
+    "start:dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "^db:generate"
+      ]
+    },
+    "start:prod": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "start:debug": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "transit"
+      ]
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:seed:dev": {
+      "cache": false
+    },
+    "db:seed:prod": {
+      "cache": false
+    },
+    "db:push:dev": {
+      "cache": false
+    },
+    "db:push:prod": {
+      "cache": false
+    },
+    "db:studio:dev": {
+      "cache": false
+    },
+    "db:studio:prod": {
+      "cache": false
+    }
+  },
+  "globalDependencies": [
+    "**/.env.*local",
+    "**/.env.*development"
+  ]
+}

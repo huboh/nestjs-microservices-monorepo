@@ -1,0 +1,191 @@
+services:
+  gateway-service:
+    image: gateway-service:latest
+    command: npm run start:dev -w @apps/gateway
+    restart: unless-stopped
+    container_name: gateway-service
+    build:
+      target: development
+      context: .
+      dockerfile: ./tooling/docker/nestjs/Dockerfile
+      args:
+        - PACKAGE=@apps/gateway
+    ports:
+      - 5001:5001
+    volumes:
+      - ./:/usr/app # sync files between host and container to enable live reloads
+      - /usr/app/node_modules # exclude node_modules to avoid conflicts between local and container environments
+    env_file:
+      - ./apps/gateway/.env.local
+    depends_on:
+      - microservices-redis
+      - microservices-rabbitmq
+      - auth-service
+      - notification-service
+
+  auth-service:
+    image: auth-service:latest
+    command: npm run start:dev -w @apps/auth
+    restart: unless-stopped
+    container_name: auth-service
+    build:
+      target: development
+      context: .
+      dockerfile: ./tooling/docker/nestjs/Dockerfile
+      args:
+        - PACKAGE=@apps/auth
+    ports:
+      - 5002:5002
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/packages/auth-service/prisma/generated
+    env_file:
+      - ./apps/auth/.env.local
+      - ./packages/auth-service/.env.local
+    depends_on:
+      - microservices-redis
+      - microservices-mongodb
+      - microservices-rabbitmq
+
+  user-service:
+    image: user-service:latest
+    command: npm run start:dev -w @apps/user
+    restart: unless-stopped
+    container_name: user-service
+    build:
+      target: development
+      context: .
+      dockerfile: ./tooling/docker/nestjs/Dockerfile
+      args:
+        - PACKAGE=@apps/user
+    ports:
+      - 5003:5003
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/packages/user-service/prisma/generated
+    env_file:
+      - ./apps/user/.env.local
+      - ./packages/user-service/.env.local
+    depends_on:
+      - microservices-redis
+      - microservices-mongodb
+      - microservices-rabbitmq
+
+  notification-service:
+    image: notification-service:latest
+    command: npm run start:dev -w @apps/notification
+    restart: unless-stopped
+    container_name: notification-service
+    build:
+      target: development
+      context: .
+      dockerfile: ./tooling/docker/nestjs/Dockerfile
+      args:
+        - PACKAGE=@apps/notification
+    ports:
+      - 5004:5004
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/packages/notification-service/prisma/generated
+    env_file:
+      - ./apps/notification/.env.local
+      - ./packages/notification-service/.env.local
+    depends_on:
+      - microservices-redis
+      - microservices-mongodb
+      - microservices-rabbitmq
+
+  microservices-redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    container_name: microservices-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_cfg:/etc/redis/redis.conf
+      - redis_data:/data
+    environment:
+      - REDIS_PORT="6379"
+      - REDIS_HOST="127.0.0.1"
+      - REDIS_PASSWORD=""
+
+  microservices-mongodb:
+    image: mongo:7.0
+    restart: unless-stopped
+    command: ["--dbpath", "/data/db", "--port", "27017", "--bind_ip_all", "--replSet", "replicaSet1"]
+    container_name: microservices-mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - database_data:/data/db
+      - database_config:/data/configdb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD-SHELL", 'echo ''try { rs.status() } catch (e) { rs.initiate({_id: "replicaSet1", members: [{_id: 0, host: "host.docker.internal:27017"}]}) }'' | mongosh --quiet --port 27017']
+      retries: 30
+      timeout: 30s
+      interval: 5s
+      start_period: 0s
+      start_interval: 1s
+
+  microservices-rabbitmq:
+    image: rabbitmq:4-management-alpine
+    command: ["bash", "-c", "chmod 600 /var/lib/rabbitmq/data/.erlang.cookie; rabbitmq-server"]
+    container_name: microservices-rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_log:/var/log/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_USER: "guest"
+      RABBITMQ_PASS: "guest"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      retries: 5
+      timeout: 15s
+      interval: 5s
+
+volumes:
+  redis_cfg:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /redis/conf/redis.conf/
+
+  redis_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /redis/data/
+
+  rabbitmq_log:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ~/.docker-conf/rabbitmq/log/
+
+  rabbitmq_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ~/.docker-conf/rabbitmq/data/
+
+  database_data:
+
+  database_config:
+
+networks:
+  default:
+    name: nestjs-microservices-network

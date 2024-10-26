@@ -1,0 +1,28 @@
+{
+  "extends": "@tooling/typescript/packages.json",
+  "exclude": [
+    "node_modules",
+    "prisma/generated",
+    "dist",
+    "test",
+    "**/*spec.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@package/*": [
+        "src/*"
+      ],
+      "@prisma/notification-service/client": [
+        "./prisma/generated/client"
+      ]
+    }
+  },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
+}

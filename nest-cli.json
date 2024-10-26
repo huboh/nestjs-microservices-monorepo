@@ -1,0 +1,50 @@
+{
+  "root": "apps/gateway",
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "monorepo": true,
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/auth/src",
+  "compilerOptions": {
+    "webpack": false,
+    "deleteOutDir": true,
+    "tsConfigPath": "packages/typescript-config/base.json"
+  },
+  "projects": {
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.json"
+      }
+    },
+    "gateway": {
+      "type": "application",
+      "root": "apps/gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gateway/tsconfig.json"
+      }
+    },
+    "notification": {
+      "type": "application",
+      "root": "apps/notification",
+      "entryFile": "main",
+      "sourceRoot": "apps/notification/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notification/tsconfig.json"
+      }
+    },
+    "shared": {
+      "type": "library",
+      "root": "packages/shared",
+      "entryFile": "index",
+      "sourceRoot": "packages/shared/src",
+      "compilerOptions": {
+        "tsConfigPath": "packages/shared/tsconfig.json"
+      }
+    }
+  }
+}
