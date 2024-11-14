@@ -12,7 +12,7 @@
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
-      "@package/*": [
+      "@packages/auth/*": [
         "src/*"
       ],
       "@prisma/auth-service/client": [

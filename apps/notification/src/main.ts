@@ -1,7 +1,7 @@
 import { AppModule } from "@app/modules/App/app.module";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { DefaultConfigModuleOptions } from "@packages/shared/configs/config";
+import { DefaultConfigModuleOptions } from "@packages/nestjs/configs/config";
 import { Transport, MicroserviceOptions } from "@nestjs/microservices";
 
 (async function main() {
@@ -19,6 +19,10 @@ import { Transport, MicroserviceOptions } from "@nestjs/microservices";
   });
 
   await (
-    microservice.listen()
+    microservice.listen().then(
+      () => {
+        console.log("notification service started ⚡⚡");
+      }
+    )
   );
 })();

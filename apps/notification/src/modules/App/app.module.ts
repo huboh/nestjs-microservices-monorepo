@@ -3,7 +3,7 @@ import { SmsModule } from "@app/modules/Sms/sms.module";
 import { EmailModule } from "@app/modules/Email/email.module";
 import { ConfigModule } from "@nestjs/config";
 import { DatabaseModule } from "@app/modules/Database/database.module";
-import { DefaultConfigModuleOptions } from "@packages/shared/configs/config";
+import { DefaultConfigModuleOptions } from "@packages/nestjs/configs/config";
 
 const modules = [
   // ! called first so environment variables are loaded

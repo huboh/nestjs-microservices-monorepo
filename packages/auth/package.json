@@ -30,7 +30,12 @@
     }
   },
   "dependencies": {
-    "@prisma/client": "^5.20.0"
+    "@packages/lib": "^0.0.0",
+    "@packages/nestjs": "^0.0.0",
+    "@packages/notification": "^0.0.0",
+    "@prisma/client": "^5.20.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1"
   },
   "devDependencies": {
     "@tooling/eslint": "*",

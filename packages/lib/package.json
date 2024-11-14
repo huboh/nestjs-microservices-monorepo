@@ -1,5 +1,5 @@
 {
-  "name": "@packages/shared",
+  "name": "@packages/lib",
   "author": "huboh",
   "private": true,
   "version": "0.0.0",
@@ -9,8 +9,7 @@
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "build": "tsc --build",
-    "start:dev": "tsc --watch",
-    "db:generate": "npx prisma generate"
+    "start:dev": "tsc --watch"
   },
   "exports": {
     "./*": {
@@ -24,7 +23,6 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/microservices": "^10.4.4",
     "@nestjs/platform-express": "^10.0.0",
-    "@prisma/client": "^5.20.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
@@ -41,7 +39,6 @@
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   }
 }

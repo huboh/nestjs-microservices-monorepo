@@ -12,7 +12,7 @@
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
-      "@package/*": [
+      "@packages/notification/*": [
         "src/*"
       ],
       "@prisma/notification-service/client": [

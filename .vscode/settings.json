@@ -4,6 +4,7 @@
   "terminal.integrated.gpuAcceleration": "on",
   "cSpell.words": [
     "datasource",
-    "RABBITMQ"
+    "RABBITMQ",
+    "signin"
   ]
 }

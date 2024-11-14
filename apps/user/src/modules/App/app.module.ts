@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { DefaultConfigModuleOptions } from "@packages/shared/configs/config";
+import { DefaultConfigModuleOptions } from "@packages/nestjs/configs/config";
 
 // modules
 import { AuthModule } from "@app/modules/User/user.module";
